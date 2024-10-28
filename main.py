@@ -17,7 +17,7 @@ for link in links:
     links = re.findall(p, response)[:2]
     links = [re.findall(re.compile(r'href="(.*?)".*?>(.*?)<\/a>'), link) for link in links]
 
-    response_1 = requests.get(wiki_url+links[0][0]).text
+    response_1 = requests.get(wiki_url+link[0]).text
     start = re.search(re.compile(r'id="mw-content-text"'), response_1).start()
     text = response_1[start:]
     links = re.findall(re.compile(r'href="[^:]+?".+?title="(.*?)"'), text)
