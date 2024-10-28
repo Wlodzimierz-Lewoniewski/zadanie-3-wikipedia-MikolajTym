@@ -1,9 +1,38 @@
-#Przykład otrzymania wartości wprowadzonej przy użyciu funkcji input().
-wyraz=input()
+import re
 
-#W celu poprawnego działania kodu w ramach GitHub Classroom warto dodatkowo użyć funkcję strip()
-#To pozwoli na usunięcie spacji oraz innych "spacjopodobnych" znaków (tabulacja \t', przejście do nowej linii '\n' lub '\r' etc.) z "głowy" i "ogona" (lewej i prawej części wyrazu).
-wyraz=wyraz.strip()
+import requests
 
-#Wydruk na ekranie (w konsoli)
-print ('Ten wyraz został wprowadzony:', wyraz)
+category = input().strip()
+category = category.replace(" ", "_")
+
+category = f"/Kategoria:{category}" # convert to encoded HTML
+wiki_url = "https://pl.wikipedia.org/wiki"
+response = requests.get(wiki_url+category).text
+
+p = re.compile(r'<a.+href="\/wiki([^:]+?)".+?>(.+)<\/a>')
+links = re.findall(p, response)[1:3]
+
+for link in links:
+    p = re.compile(r'<li>.*?</li>')
+    links = re.findall(p, response)[:2]
+    links = [re.findall(re.compile(r'href="(.*?)".*?>(.*?)<\/a>'), link) for link in links]
+
+    response_1 = requests.get(wiki_url+links[0][0]).text
+    start = re.search(re.compile(r'id="mw-content-text"'), response_1).start()
+    text = response_1[start:]
+    links = re.findall(re.compile(r'href="[^:]+?".+?title="(.*?)"'), text)
+    print(links.join(" | "))
+
+    images = re.findall(re.compile(r'<img src="(.+?)"'), text)[:3]
+    print(images.join(" | "))
+
+    start = re.search(re.compile(r'id="Przypisy"'), text).start()
+    sources = text[start:]
+    links = re.findall(re.compile(r'class="reference-text".+?href="(.+?)".+?<\/span>'), sources)[:3]
+    print(links.join(" | "))
+
+    start = re.search(re.compile('id="catlinks"'), text).start()
+    categories = text[start:]
+    categories = re.findall(re.compile(r'<li.+?>(.+?)</a></li>'), categories)[:3]
+    print(categories.join(" | "))
+    
