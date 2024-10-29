@@ -21,18 +21,18 @@ for link in links:
     start = re.search(re.compile(r'id="mw-content-text"'), response_1).start()
     text = response_1[start:]
     links = re.findall(re.compile(r'href="[^:]+?".+?title="(.*?)"'), text)
-    print(links.join(" | "))
+    print(" | ".join(links))
 
     images = re.findall(re.compile(r'<img src="(.+?)"'), text)[:3]
-    print(images.join(" | "))
+    print(" | ".join(images))
 
     start = re.search(re.compile(r'id="Przypisy"'), text).start()
     sources = text[start:]
     links = re.findall(re.compile(r'class="reference-text".+?href="(.+?)".+?<\/span>'), sources)[:3]
-    print(links.join(" | "))
+    print(" | ".join(links))
 
     start = re.search(re.compile('id="catlinks"'), text).start()
     categories = text[start:]
     categories = re.findall(re.compile(r'<li.+?>(.+?)</a></li>'), categories)[:3]
-    print(categories.join(" | "))
+    print(" | ".join(categories))
     
