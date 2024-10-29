@@ -20,7 +20,7 @@ for link in links:
     response_1 = requests.get(wiki_url+link[0]).text
     start = re.search(re.compile(r'id="mw-content-text"'), response_1).start()
     text = response_1[start:]
-    links = re.findall(re.compile(r'href="[^:]+?".+?title="(.*?)"'), text)
+    links = re.findall(re.compile(r'href="[^:]+?".+?title="(.*?)"'), text)[:5]
     print(" | ".join(links))
 
     images = re.findall(re.compile(r'<img src="(.+?)"'), text)[:3]
