@@ -1,9 +1,11 @@
 import re
+from urllib.parse import quote
 
 import requests
 
 category = input().strip()
 category = category.replace(" ", "_")
+category = quote(category)
 
 category = f"/Kategoria:{category}" # convert to encoded HTML
 wiki_url = "https://pl.wikipedia.org/wiki"
@@ -23,7 +25,7 @@ for link in links:
     links = re.findall(re.compile(r'href="[^:]+?".+?title="(.*?)"'), text)[:5]
     print(" | ".join(links))
 
-    images = re.findall(re.compile(r'<img src="(.+?)"'), text)[:3]
+    images = re.findall(re.compile(r'<img.+?src="(.+?)"'), text)[:3]
     print(" | ".join(images))
 
     start = re.search(re.compile(r'id="Przypisy"'), text).start()
