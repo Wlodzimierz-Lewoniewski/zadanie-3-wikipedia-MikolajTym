@@ -30,7 +30,7 @@ for link in links:
 
     start = re.search(re.compile(r'id="Przypisy"'), text).start()
     sources = text[start:]
-    links = re.findall(re.compile(r'class="reference-text".+?href="(.+?)".+?<\/span>'), sources)[:3]
+    links = re.findall(re.compile(r'href="(http.+?)"'), sources)[:3]
     print(" | ".join(links))
 
     start = re.search(re.compile('id="catlinks"'), text).start()
