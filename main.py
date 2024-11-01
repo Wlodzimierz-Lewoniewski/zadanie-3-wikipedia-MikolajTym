@@ -39,9 +39,7 @@ for link in links:
         if len(links_p) > 3:
             links_p = links_p[:3]
         print(" | ".join(links_p))
-    else:
-        print("\n")
-
+        
     categories_text = re.search(re.compile('mw-normal-catlinks(.+?)</div>'), text).group()
     categories = re.findall(re.compile(r'<li.+?>(.+?)</a></li>'), categories_text)
     if len(categories) > 3:
