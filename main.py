@@ -29,7 +29,8 @@ for link in links:
     images = re.findall(re.compile(r'<img.+?src="(.+?)"'), text)[:3]
     print(" | ".join(images))
 
-    sources_text = re.search(re.compile(r'class="mw-references-wrap mw-references-columns"(.+?)<\/ol>', re.DOTALL), text).group()
+    sources_text = re.search(re.compile(r'id="Przypisy"(.+)', re.DOTALL), text).group()
+    sources_text = re.search(re.compile(r'class="references"(.+?)<\/ol>', re.DOTALL), sources_text).group()
     links_p = re.findall(re.compile(r'"(http.+?)"'), sources_text)
     if len(links_p) > 3:
         links_p = links_p[:3]
