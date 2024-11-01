@@ -29,12 +29,13 @@ for link in links:
     images = re.findall(re.compile(r'<img.+?src="(.+?)"'), text)[:3]
     print(" | ".join(images))
 
-    sources_text = re.search(re.compile(r'id="Przypisy"(.+)', re.DOTALL), text).group()
-    sources_text = re.search(re.compile(r'class="references"(.+?)<\/ol>', re.DOTALL), sources_text).group()
-    links_p = re.findall(re.compile(r'"(http.+?)"'), sources_text)
-    if len(links_p) > 3:
-        links_p = links_p[:3]
-    print(" | ".join(links_p))
+    sources_text = re.search(re.compile(r'id="Przypisy"(.+)', re.DOTALL), text)
+    if sources_text is not None:
+        sources_text = re.search(re.compile(r'class="references"(.+?)<\/ol>', re.DOTALL), sources_text.group()).group()
+        links_p = re.findall(re.compile(r'"(http.+?)"'), sources_text)
+        if len(links_p) > 3:
+            links_p = links_p[:3]
+        print(" | ".join(links_p))
 
     categories_text = re.search(re.compile('mw-normal-catlinks(.+?)</div>'), text).group()
     categories = re.findall(re.compile(r'<li.+?>(.+?)</a></li>'), categories_text)
