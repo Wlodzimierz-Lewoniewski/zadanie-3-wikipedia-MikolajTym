@@ -26,7 +26,10 @@ for link in links:
     links_p = re.findall(re.compile(r'href="[^:]+?".+?title="(.*?)"'), text)[:5]
     print(" | ".join(links_p))
 
-    images = re.findall(re.compile(r'<img.+?src="(.+?)"'), text)[:3]
+    image_text = re.search(re.compile(r'mw-content-text(.+?)<noscript>', re.DOTALL), text).group()
+    images = re.findall(re.compile(r'<img.+?src="(.+?)"'), image_text)
+    if len(images) > 3:
+        images = images[:3]
     print(" | ".join(images))
 
     sources_text = re.search(re.compile(r'id="Przypisy"(.+)', re.DOTALL), text)
@@ -36,6 +39,8 @@ for link in links:
         if len(links_p) > 3:
             links_p = links_p[:3]
         print(" | ".join(links_p))
+    else:
+        print("\n")
 
     categories_text = re.search(re.compile('mw-normal-catlinks(.+?)</div>'), text).group()
     categories = re.findall(re.compile(r'<li.+?>(.+?)</a></li>'), categories_text)
