@@ -32,7 +32,7 @@ for link in links:
     start = re.search(re.compile(r'id="Przypisy"'), text)
     if start is not None: 
         sources = text[start.start():]
-        links_p = re.findall(re.compile(r'class="reference-text".+?href="(http.+?)".+?<\/span>'), sources)
+        links_p = re.findall(re.compile(r'"(http.+?)"'), sources)
         if len(links_p) > 3:
             links_p = links_p[:3]
         print(" | ".join(links_p))
