@@ -24,7 +24,7 @@ for link in links:
     start = re.search(re.compile(r'id="mw-content-text"'), response_1).start()
     text = response_1[start:]
     links_p = re.findall(re.compile(r'href="[^:]+?".+?title="(.*?)"'), text)[:5]
-    print(" | ".join(links))
+    print(" | ".join(links_p))
 
     images = re.findall(re.compile(r'<img.+?src="(.+?)"'), text)[:3]
     print(" | ".join(images))
